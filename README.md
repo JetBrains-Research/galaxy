@@ -9,8 +9,8 @@ Quick setup
 * Create `config/galaxy.ini` as a copy of `config/galaxy.ini.sample`
 * Configure `tools_config_file`, `check_migrate_tools` and `watch_tools` properties
 * Minimal `tool_conf.xml`
-
-    ```<?xml version='1.0' encoding='utf-8'?>
+ ```
+    <?xml version='1.0' encoding='utf-8'?>
     <toolbox>
     <section id="getext" name="Get Data">
         <tool file="data_source/upload.xml" />
@@ -21,7 +21,8 @@ Quick setup
     <section id="jetbrains" name="JetBrains tools">
         <tool file="<PATH_TO_TOOLS>tools.xml" />
     </section>
-    </toolbox>```
+    </toolbox>
+```
 
 Useful links
 ------------
