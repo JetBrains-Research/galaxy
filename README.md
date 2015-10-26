@@ -9,7 +9,7 @@ Quick setup
 * Create `config/galaxy.ini` as a copy of `config/galaxy.ini.sample`
 * Configure `tools_config_file`, `check_migrate_tools` and `watch_tools` properties
 * Minimal `tool_conf.xml`
- ```
+```
     <?xml version='1.0' encoding='utf-8'?>
     <toolbox>
     <section id="getext" name="Get Data">
