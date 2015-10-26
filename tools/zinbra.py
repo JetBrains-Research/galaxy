@@ -4,10 +4,11 @@ Python wrapper for zinbra.xml
 Usage: zinbra.py "${genome}" "${bed}" "${bin}" "${fdr}"
 """
 
+import os
 import sys
 import subprocess
 
-argv = sys.argv
+argv = sys.argv[1:]
 print 'Arguments {0}'.format(argv)
 genome, bed, bin, fdr = argv
 
