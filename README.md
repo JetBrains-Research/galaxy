@@ -29,6 +29,10 @@ Useful links
 * Galaxy
  * [Develop apps](https://wiki.galaxyproject.org/Develop)
  * [Add tool tutorial](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial)
+ * [Tool config format](https://wiki.galaxyproject.org/Admin/Tools/ToolConfigSyntax)
+ * [Quick reStructured text](http://docutils.sourceforge.net/docs/user/rst/quickref.html)
+ * [Main tools Shed resource](https://toolshed.g2.bx.psu.edu/repository)
+ * [Bed tools Shed example](https://github.com/galaxyproject/tools-iuc/blob/master/packages/package_bedtools_2_24/tool_dependencies.xml)
 * Biolabs
  * Our [homepage](http://beta-research.jetbrains.org/groups/biolabs)
  * Our [wiki](http://biolabs.intellij.net)
