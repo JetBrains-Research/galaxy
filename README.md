@@ -7,7 +7,7 @@ Quick setup
 * Download local copy of [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
 * Checkout latest release: `git checkout release_15.01`
 * Create `config/galaxy.ini` as a copy of `config/galaxy.ini.sample`
-* Configure `tools_config_file`, `check_migrate_tools` and `watch_tools` properties
+* Configure `tools_config_file`, `check_migrate_tools` properties
 * Minimal `tool_conf.xml`
 ```
     <?xml version='1.0' encoding='utf-8'?>
@@ -33,6 +33,7 @@ Useful links
  * [Quick reStructured text](http://docutils.sourceforge.net/docs/user/rst/quickref.html)
  * [Main tools Shed resource](https://toolshed.g2.bx.psu.edu/repository)
  * [Bed tools Shed example](https://github.com/galaxyproject/tools-iuc/blob/master/packages/package_bedtools_2_24/tool_dependencies.xml)
+ * [Biostar Galaxy](https://biostar.usegalaxy.org)
 * Biolabs
  * Our [homepage](http://beta-research.jetbrains.org/groups/biolabs)
  * Our [wiki](http://biolabs.intellij.net)
