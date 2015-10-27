@@ -1,7 +1,6 @@
 <tool id="zinbra" name="Zinbra" version="0.0.1">
     <description>ChIP-Seq enrichment</description>
     <requirements>
-        <requirement type="package" version="2.23.0">bedtools</requirement>
         <requirement type="package" version="0.0.1">epigenome</requirement>
     </requirements>
     <stdio>
@@ -22,26 +21,6 @@
         <data name="result" format="bed" label="result.bed" />
     </outputs>
     <help>
-
-.. class:: warningmark
-**Note**. Zinbra may take a substantial amount of time.
-
-** What is it? **
 Zinbra is a tool for analyzing and comparing ChIP-Seq data using Zero Inflated Negative Binomial Restricted Algorithm.
-
-** References **
-https://github.com/JetBrains-Research/zinbra
-
-::
-
-    +------+
-    |ZINBRA|
-    +-----\|
-    _,,
-    "-.\=
-        \\=   _.~
-        _|/||||)_
-        \        \
-
     </help>
 </tool>
