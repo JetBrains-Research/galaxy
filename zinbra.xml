@@ -13,7 +13,7 @@
     </command>
     <inputs>
         <param name="bed" type="data" format="bed" label="Aligned reads" description="BED Aligned reads to process" />
-        <param name="genome" type="genomebuild" label="Genome build" description="Genome build used for alignment" />
+        <param name="genome" type="data" format="fasta" label="Genome build" description="Genome build reference" />
         <param name="bin" size="5" type="integer" value="200" label="Bin size" />
         <param name="fdr" size="5" type="float" value="0.0001" label="FDR" />
     </inputs>
