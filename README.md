@@ -1,8 +1,8 @@
 Galaxy Applications
-=================
+===================
 
 Quick setup
-------------
+-----------
 
 * Download local copy of [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
 * Checkout latest release: `git checkout release_15.01`

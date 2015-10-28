@@ -22,5 +22,6 @@
     </outputs>
     <help>
 Zinbra is a tool for analyzing and comparing ChIP-Seq data using Zero Inflated Negative Binomial Restricted Algorithm.
+https://github.com/JetBrains-Research/zinbra
     </help>
 </tool>
