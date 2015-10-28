@@ -20,7 +20,6 @@ https://wiki.galaxyproject.org/ToolDependenciesTagSets
         </install>
         <readme>
             Downloads epigenome integration JAR.
-            See for more details: https://teamcity.jetbrains.com/project.html?projectId=Epigenome_Tools&tab=projectOverview&guest=1
         </readme>
     </package>
 </tool_dependency>
