@@ -1,7 +1,8 @@
 Galaxy Applications
 ===================
+* [zinbra](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra) - a tool for analyzing and comparing ChIP-Seq data
 
-Quick setup
+Local setup
 -----------
 
 * Download local copy of [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
@@ -17,8 +18,8 @@ Quick setup
 Publish to tool shed
 --------------------
 * Copy application folder to dedicated hg repository
-* Not nescessary: update `README.md` with information on snapshot commit.
-* Example for zinbra application:
+* Not necessary: update `README.md` with information on snapshot commit.
+* Example `README.md` for zinbra application:
 ```
 Release version
 ===============
@@ -29,7 +30,7 @@ NOTE
 Release is just a snapshot of files from development repo application folder.
 ```
 * Commit and push to mercurial
-* Invoke Repository Actions | Reset all repository metadata
+* Invoke **Repository Actions** | **Reset all repository metadata**
 * Voila, tool shed version is synchronized with mercurial repo
 
 
