@@ -18,17 +18,7 @@ Local setup
 Publish to tool shed
 --------------------
 * Copy application folder to dedicated hg repository
-* Not necessary: update `README.md` with information on snapshot commit.
-* Example `README.md` for zinbra application:
-```
-Release version
-===============
-https://github.com/JetBrains-Research/galaxy/commit/a138a0b8f1d471d464a09a95daf5791f41fa0ec5
-
-NOTE
-----
-Release is just a snapshot of files from development repo application folder.
-```
+* Mention snapshot version in commit message
 * Commit and push to mercurial
 * Invoke **Repository Actions** | **Reset all repository metadata**
 * Voila, tool shed version is synchronized with mercurial repo
