@@ -7,19 +7,20 @@ https://wiki.galaxyproject.org/ToolDependenciesTagSets
     <package name="epigenome" version="0.0.1" prior_installation_required="True">
         <install version="1.0">
             <actions>
-                <action type="download_by_url">http://teamcity.jetbrains.com/guestAuth/repository/download/Epigenome_Tools_GenestackIntegration/lastSuccessful/genestack-Dev-all.jar</action>
+                <action type="download_by_url">http://teamcity.jetbrains.com/guestAuth/repository/download/Epigenome_Tools_Integration/lastSuccessful/integration-Dev-all.jar</action>
                 <action type="move_directory_files">
                     <source_directory>.</source_directory>
                     <destination_directory>$INSTALL_DIR/</destination_directory>
                 </action>
-                <!-- Set environment variable $EPIGENOME_JAR so Python script knows where to look -->
+                <!-- Set environment variable $INTEGRATION_JAR so Python script knows where to look -->
                 <action type="set_environment">
-                    <environment_variable name="EPIGENOME_JAR" action="set_to">$INSTALL_DIR/genestack-Dev-all.jar</environment_variable>
+                    <environment_variable name="$INTEGRATION_JAR" action="set_to">$INSTALL_DIR/integration-Dev-all.jar</environment_variable>
                 </action>
             </actions>
         </install>
         <readme>
-            Downloads epigenome integration v0.0.1
+            Downloads epigenome integration JAR.
+            See for more details: https://teamcity.jetbrains.com/project.html?projectId=Epigenome_Tools&tab=projectOverview&guest=1
         </readme>
     </package>
 </tool_dependency>

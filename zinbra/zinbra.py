@@ -13,7 +13,7 @@ print 'Arguments {0}'.format(argv)
 genome, bed, bin, fdr = argv
 
 # Configure main jar path
-jar = os.environ.get("EPIGENOME_JAR")
+jar = os.environ.get("INTEGRATION_JAR")
 print 'Using JAR distributive file {0}'.format(jar)
 
 cmd = 'java -cp {0} org.jetbrains.bio.genestack.FastaToTwoBitCLA {1} reference.2bit'.format(jar, genome)

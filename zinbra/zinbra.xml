@@ -1,4 +1,4 @@
-<tool id="zinbra" name="Zinbra" version="0.0.1">
+<tool id="zinbra123" name="Zinbra123" version="0.0.1">
     <description>ChIP-Seq enrichment</description>
     <requirements>
         <requirement type="package" version="0.0.1">epigenome</requirement>
