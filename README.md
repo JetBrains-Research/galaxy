@@ -14,12 +14,31 @@ Quick setup
     </section>
 ```
 
+Publish to tool shed
+--------------------
+* Copy application folder to dedicated hg repository
+* Not nescessary: update `README.md` with information on snapshot commit.
+* Example for zinbra application:
+```
+Release version
+===============
+https://github.com/JetBrains-Research/galaxy/commit/a138a0b8f1d471d464a09a95daf5791f41fa0ec5
+
+NOTE
+----
+Release is just a snapshot of files from development repo application folder.
+```
+* Commit and push to mercurial
+* Invoke Repository Actions | Reset all repository metadata
+* Voila, tool shed version is synchronized with mercurial repo
+
+
 Useful links
 ------------
 * Galaxy
  * [Develop apps](https://wiki.galaxyproject.org/Develop)
  * [Add tool tutorial](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial)
- * [Zinbra on Main tools Shed resource](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra)
+ * [Zinbra on Main tool Shed resource](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra)
  * [Biostar Galaxy](https://biostar.usegalaxy.org)
 * Biolabs
  * Our [homepage](http://beta-research.jetbrains.org/groups/biolabs)
