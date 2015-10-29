@@ -1,0 +1,47 @@
+<tool id="cmeth" name="Cmeth" version="0.2.0">
+    <description>BS-Seq analysis</description>
+    <requirements>
+        <requirement type="package" version="0.0.1">integration_jar</requirement>
+    </requirements>
+    <stdio>
+        <!-- Wrapper ensures anything other than zero is an error -->
+        <exit_code range="1:"/>
+        <exit_code range=":-1"/>
+    </stdio>
+    <command interpreter="python">
+        #if $action.selection == "analyze"
+            cmeth_wrapper.py "${genome}" "${fdr}" analyze "${bam}"
+        #else
+            cmeth_wrapper.py "${genome}" "${fdr}" compare "${bam1}" "${bam2}"
+        #end if
+    </command>
+    <inputs>
+        <param name="genome" type="data" format="fasta" label="Genome build" description="Genome build reference"/>
+        <param name="fdr" size="5" type="float" value="0.0001" label="FDR"/>
+        <conditional name="action">
+            <param name="selection" type="select" label="Action">
+                <option value="analyze">Compute methylation</option>
+                <option value="compare">Compare methylation</option>
+            </param>
+            <when value="analyze">
+                <param name="bam" type="data" format="bam" label="Aligned BS-Seq bam" description="BAM BS-Seq Aligned reads to process"/>
+            </when>
+            <when value="compare">
+                <param name="bam1" type="data" format="bam" label="Aligned BS-Seq bam1" description="BAM BS-Seq Aligned reads to process 1"/>
+                <param name="bam2" type="data" format="bam" label="Aligned BS-Seq bam2" description="BAM BS-Seq Aligned reads to process 2"/>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        #if $action.selection == "analyze"
+        <data name="result" format="csv" label="CG_unmethylated.csv"/>
+        #else
+        <data name="result" format="csv" label="CG_emr.csv"/>
+        #end if
+    </outputs>
+    <help>
+Cmeth is a tool for analyzing and comparing cytosine methylation from WGBS (whole-genome bisulfite sequencing) data.
+Both procedures rely on the nonparametric Bayesian switching HMM.
+https://github.com/JetBrains-Research/cmeth
+    </help>
+</tool>

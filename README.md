@@ -1,5 +1,6 @@
 Galaxy Applications
 ===================
+* [cmeth](https://toolshed.g2.bx.psu.edu/view/jetbrains/cmeth) - a tool for analyzing and comparing BS-Seq data
 * [zinbra](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra) - a tool for analyzing and comparing ChIP-Seq data
 
 Local setup
@@ -29,7 +30,6 @@ Useful links
 * Galaxy
  * [Develop apps](https://wiki.galaxyproject.org/Develop)
  * [Add tool tutorial](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial)
- * [Zinbra on Main tool Shed resource](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra)
  * [Biostar Galaxy](https://biostar.usegalaxy.org)
 * Biolabs
  * Our [homepage](http://beta-research.jetbrains.org/groups/biolabs)

@@ -1,7 +1,7 @@
 <tool id="zinbra" name="Zinbra" version="0.0.1">
-    <description>ChIP-Seq enrichment</description>
+    <description>ChIP-Seq analysis</description>
     <requirements>
-        <requirement type="package" version="0.0.1">epigenome</requirement>
+        <requirement type="package" version="0.0.1">integration_jar</requirement>
     </requirements>
     <stdio>
         <!-- Wrapper ensures anything other than zero is an error -->
@@ -10,9 +10,9 @@
     </stdio>
     <command interpreter="python">
         #if $action.selection == "analyze"
-            zinbra.py "${genome}" "${bin}" "${fdr}" analyze "${bed}"
+            zinbra_wrapper.py "${genome}" "${bin}" "${fdr}" analyze "${bed}"
         #else
-            zinbra.py "${genome}" "${bin}" "${fdr}" compare "${bed1}" "${bed2}"
+            zinbra_wrapper.py "${genome}" "${bin}" "${fdr}" compare "${bed1}" "${bed2}"
         #end if
     </command>
     <inputs>
