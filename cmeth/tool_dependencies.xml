@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <tool_dependency xmlns:xi="http://www.w3.org/1999/XSL/Transform">
     <xi:include href="../integration_jar.xml" parse="xml" xpointer=""/>
+    <!-- For galaxy repo layout -->
+    <xi:include href="integration_jar.xml" parse="xml" xpointer=""/>
 </tool_dependency>
