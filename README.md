@@ -1,7 +1,7 @@
 Galaxy Applications
 ===================
-* [cmeth](https://toolshed.g2.bx.psu.edu/view/jetbrains/cmeth) - a tool for analyzing and comparing BS-Seq data
-* [zinbra](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra) - a tool for analyzing and comparing ChIP-Seq data
+* [cmeth](https://toolshed.g2.bx.psu.edu/view/jetbrains/cmeth) - a [tool](https://github.com/JetBrains-Research/cmeth) for analyzing and comparing BS-Seq data
+* [zinbra](https://toolshed.g2.bx.psu.edu/view/jetbrains/zinbra) - a [tool](https://github.com/JetBrains-Research/zinbra) for analyzing and comparing ChIP-Seq data
 
 Local setup
 -----------
