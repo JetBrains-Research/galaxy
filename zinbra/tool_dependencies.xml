@@ -8,14 +8,14 @@
     <package name="integration_jar" version="0.0.1" prior_installation_required="True">
         <install version="1.0">
             <actions>
-                <action type="download_by_url">http://teamcity.jetbrains.com/guestAuth/repository/download/Epigenome_Tools_Integration/lastSuccessful/integration-dev-all.jar</action>
+                <action type="download_by_url">http://teamcity.jetbrains.com/guestAuth/repository/download/Epigenome_Tools_Integration/lastSuccessful/integration-dev.jar</action>
                 <action type="move_directory_files">
                     <source_directory>.</source_directory>
                     <destination_directory>$INSTALL_DIR/</destination_directory>
                 </action>
                 <!-- Set environment variable $INTEGRATION_JAR so Python script knows where to look -->
                 <action type="set_environment">
-                    <environment_variable name="$INTEGRATION_JAR" action="set_to">$INSTALL_DIR/integration-dev-all.jar</environment_variable>
+                    <environment_variable name="$INTEGRATION_JAR" action="set_to">$INSTALL_DIR/integration-dev.jar</environment_variable>
                 </action>
             </actions>
         </install>
