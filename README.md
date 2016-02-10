@@ -5,7 +5,6 @@ Galaxy Applications
 
 Local setup
 -----------
-
 * Download local copy of [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
 * Checkout latest release: `git checkout release_15.01`
 * Create `config/galaxy.ini` as a copy of `config/galaxy.ini.sample`
@@ -13,6 +12,9 @@ Local setup
 ```
     <section id="jetbrains" name="JetBrains tools">
         <tool file="<RELATIVE_PATH>/zinbra.xml" />
+    </section>
+    <section id="jetbrains" name="JetBrains tools">
+        <tool file="<RELATIVE_PATH>/cmeth.xml" />
     </section>
 ```
 
@@ -31,8 +33,5 @@ Useful links
  * [Develop apps](https://wiki.galaxyproject.org/Develop)
  * [Add tool tutorial](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial)
  * [Biostar Galaxy](https://biostar.usegalaxy.org)
-* Biolabs
- * Our [homepage](http://beta-research.jetbrains.org/groups/biolabs)
- * Our [wiki](http://biolabs.intellij.net)
- * Our NIH powered [genome browser](http://genomebrowser.labs.intellij.net)
- * [TeamCity](https://teamcity.jetbrains.com/project.html?projectId=Epigenome)
+* BioLabs
+ * JetBrains BioLabs [homepage](http://research.jetbrains.org/groups/biolabs)
