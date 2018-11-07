@@ -1,0 +1,69 @@
+<tool id="span" name="SPAN" version="0.7.1.4272">
+    <description>ChIP-Seq analysis</description>
+    <requirements>
+        <requirement type="package" version="0.7.1.4272">package_span_jar</requirement>
+        <!--<container type="docker">biolabs/span</container>-->
+    </requirements>
+    <stdio>
+        <!-- Wrapper ensures anything other than zero is an error -->
+        <exit_code range="1:"/>
+        <exit_code range=":-1"/>
+    </stdio>
+    <command interpreter="python">
+#if str($action.action_selector) == "model"
+    #if $control.control_selector
+        span_wrapper.py model with_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${control.control_file}"
+    #else
+        span_wrapper.py model without_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}"
+    #end if
+#else
+    #if $control.control_selector
+        span_wrapper.py peaks with_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${control.control_file}" "${fdr}" "${gap}" "${action.peaks_file}"
+    #else
+        span_wrapper.py peaks without_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${fdr}" "${gap}" "${action.peaks_file}"
+    #end if
+#end if
+     </command>
+    <inputs>
+        <param name="treatment_file" type="data" format="bam" label="Treatment BAM"
+               description="Treatment BAM reads to process"/>
+        <param name="genome" type="data" format="chrom.sizes" label="Genome chrom.sizes"
+               description="Genome build chrom.sizes file"/>
+
+        <conditional name="control">
+            <param name="control_selector" type="boolean" label="Control available" value="false"/>
+            <when value="true">
+                <param name="control_file" type="data" format="bam" label="Control BAM"
+                       description="Control BAM reads to process"/>
+            </when>
+        </conditional>
+
+        <conditional name="action">
+            <param name="action_selector" type="select" label="Action">
+                <option value="model">Compute SPAN model</option>
+                <option value="peaks">Compute SPAN model and produce BED peaks</option>
+            </param>
+            <when value="model">
+                <param name="model_file" type="text" value="model.span" label="Model name"/>
+            </when>
+            <when value="peaks">
+                <param name="model_file" type="text" value="model.span" label="Model file name"/>
+                <param name="fdr" size="5" type="float" value="0.0001" label="FDR"/>
+                <param name="gap" size="5" type="integer" value="5" label="GAP"/>
+                <param name="peaks_file" type="text" value="peaks.bed" label="Peaks file name"/>
+            </when>
+        </conditional>
+
+        <param name="bin" size="5" type="integer" value="200" label="Bin size"/>
+    </inputs>
+    <outputs>
+        <data name="${action.model_file}" format="span" label="SPAN model file"/>
+        <data name="${action.peaks_file}" format="bed" label="SPAN peaks file">
+            <filter>action['action_selector'] == "peaks"</filter>
+        </data>
+    </outputs>
+    <help>
+        SPAN Semi-supervised Peak Analyzer is a tool for analyzing ChIP-seq data.
+        Details: http://artyomovlab.wustl.edu/aging/span.html
+    </help>
+</tool>
