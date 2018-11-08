@@ -7,6 +7,9 @@ Local Galaxy setup
 * Install galaxy [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
 * Checkout latest release: `git clone -b release_18.05 https://github.com/galaxyproject/galaxy.git`
 * Launch `bash run.sh` and ensure Galaxy is serving at http://127.0.0.1:8080
+* Galaxy relies on Conda in dependencies management, sometimes conda packages (like mercurial) 
+can conflict with locally installed packages, e.g. installed by homebrew on MacOS.
+Workaround is to disable/uninstall them while developing with Galaxy.
 * Create `config/galaxy.ini` as a copy of `config/galaxy.ini.sample`
 * Copy `span` folder to your local Galaxy installation under `tools` folder. 
 For development purposes you can create symbolic link instead of copying, 
