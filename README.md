@@ -1,10 +1,10 @@
 JetBrains Research Biolabs Galaxy Applications
 ==============================================
-* [span](https://toolshed.g2.bx.psu.edu/view/jetbrains/span) - a [tool](http://artyomovlab.wustl.edu/aging/span.html) for analyzing and comparing ChIP-Seq data
+* [SPAN](https://toolshed.g2.bx.psu.edu/view/jetbrains/span) - a [tool](http://artyomovlab.wustl.edu/aging/span.html) for analyzing and comparing ChIP-Seq data
 
 Local Galaxy & tools installation
 ------------------
-* Install galaxy [galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
+* Install [Galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy)
 * Checkout latest release: `git clone -b release_18.05 https://github.com/galaxyproject/galaxy.git`
 * Launch `bash run.sh` and ensure Galaxy is serving at http://127.0.0.1:8080
 * Galaxy relies on Conda in dependencies management, sometimes conda packages (like mercurial) 
