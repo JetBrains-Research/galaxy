@@ -12,9 +12,9 @@
                     <source_directory>.</source_directory>
                     <destination_directory>$INSTALL_DIR/</destination_directory>
                 </action>
-                <!-- Set environment variable $INTEGRATION_JAR so Python script knows where to look -->
+                <!-- Set environment variable SPAN_JAR so Python script knows where to look -->
                 <action type="set_environment">
-                    <environment_variable name="$SPAN_JAR" action="set_to">$INSTALL_DIR/span-0.7.1.4272.jar</environment_variable>
+                    <environment_variable name="SPAN_JAR" action="set_to">$INSTALL_DIR/span-0.7.1.4272.jar</environment_variable>
                 </action>
             </actions>
         </install>
