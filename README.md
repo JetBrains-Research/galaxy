@@ -30,12 +30,26 @@ galaxy.tools.toolbox.base DEBUG 2018-10-30 16:31:45,941 [p:8990,w:0,m:0] [MainTh
 
 Publish to tool shed
 --------------------
-* Copy application folder to dedicated mercurial repository
-* Mention snapshot version in commit message
-* Commit and push to mercurial
+* Login to [ToolShed](https://toolshed.g2.bx.psu.edu/repository/create_repository)
+* Create repository at Toolshed via Available Actions | Create new repository
+![Create span dedicated mercurial repo](toolshed.png)
+* Update tool files
 * Invoke **Repository Actions** | **Reset all repository metadata**
 * Voila, tool shed version is synchronized with mercurial repo
 
+There are 2 options to update repository files:
+
+* Upload files from UI action Upload files to repository
+    1. Create `.tar.gz` file
+    2. Upload it
+![Upload files to mercurial repository](addfiles.png)    
+
+* Clone mercurial repository locally
+    1. Clone repository locally
+Visit [https://www.mercurial-scm.org/wiki/CACertificates](https://www.mercurial-scm.org/wiki/CACertificates) for troubleshooting in case you get error:
+```abort: error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:726)``` 
+    2. Copy application folder to dedicated mercurial repository
+    3. Commit and push to mercurial
 Useful links
 ------------
  * [Develop Galaxy apps](https://wiki.galaxyproject.org/Develop)
