@@ -54,11 +54,9 @@ There are 2 options to update repository files:
 ![Upload files to mercurial repository](addfiles.png)    
 
 * Clone mercurial repository locally
-    1. Clone repository locally
-    Visit [https://www.mercurial-scm.org/wiki/CACertificates](https://www.mercurial-scm.org/wiki/CACertificates) for troubleshooting in case you get error:
-```
-abort: error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:726)
-``` 
+    1. Clone repository locally.
+       Visit [https://www.mercurial-scm.org/wiki/CACertificates](https://www.mercurial-scm.org/wiki/CACertificates) 
+       in case of error: ```abort: error: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:726)``` 
     2. Copy application folder to dedicated mercurial repository
     3. Commit and push to mercurial
 
