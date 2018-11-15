@@ -41,7 +41,7 @@
         <conditional name="action">
             <param name="action_selector" type="select" label="Action">
                 <option value="model">Compute SPAN model</option>
-                <option value="peaks">Compute SPAN model and produce BED peaks</option>
+                <option value="peaks">Compute SPAN model and produce peaks file</option>
             </param>
             <when value="model">
                 <param name="model_file" type="text" value="model.span" label="Model name"/>
@@ -50,7 +50,7 @@
                 <param name="model_file" type="text" value="model.span" label="Model file name"/>
                 <param name="fdr" size="5" type="float" value="0.0001" label="FDR"/>
                 <param name="gap" size="5" type="integer" value="5" label="GAP"/>
-                <param name="peaks_file" type="text" value="peaks.bed" label="Peaks file name"/>
+                <param name="peaks_file" type="text" value="result.peak" label="Peaks file name"/>
             </when>
         </conditional>
 
