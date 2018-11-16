@@ -10,31 +10,38 @@
         <exit_code range=":-1"/>
     </stdio>
     <command interpreter="python">
+#import re
+#set treatment_identifier = re.sub('[^\w\-\.]', '_', str($treatment_file.element_identifier))
+#set genome_identifier = re.sub('[^\w\-\.]', '_', str($genome))
+
 #if str($action.action_selector) == "model"
     #if $control.control_selector
-        span_wrapper.py model with_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${control.control_file}"
+        #set control_identifier = re.sub('[^\w\-\.]', '_', str($control.control_file.element_identifier))
+        span_wrapper.py model with_control "${genome_identifier}" "${treatment_identifier}" "${bin}" "${action.model_file}" "control_identifier"
     #else
-        span_wrapper.py model without_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}"
+        span_wrapper.py model without_control "${genome_identifier}" "${treatment_identifier}" "${bin}" "${action.model_file}"
     #end if
 #else
+
     #if $control.control_selector
-        span_wrapper.py peaks with_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${control.control_file}" "${fdr}" "${gap}" "${action.peaks_file}"
+        #set control_identifier = re.sub('[^\w\-]', '_', str($control.control_file.element_identifier))
+        span_wrapper.py peaks with_control "${genome_identifier}" "${treatment_identifier}" "${bin}" "${action.model_file}" "${control_identifier}" "${fdr}" "${gap}" "${action.peaks_file}"
     #else
-        span_wrapper.py peaks without_control "${genome}" "${treatment_file}" "${bin}" "${action.model_file}" "${fdr}" "${gap}" "${action.peaks_file}"
+        span_wrapper.py peaks without_control "${genome_identifier}" "${treatment_identifier}" "${bin}" "${action.model_file}" "${fdr}" "${gap}" "${action.peaks_file}"
     #end if
 #end if
      </command>
     <inputs>
         <param name="treatment_file" type="data" format="bam" label="Treatment BAM"
-               description="Treatment BAM reads to process"/>
+               description="Treatment BAM reads to process" argument="--treatment"/>
         <param name="genome" type="data" format="chrom.sizes" label="Genome chrom.sizes"
-               description="Genome build chrom.sizes file"/>
+               description="Genome build chrom.sizes file" argument="--chrom.sizes"/>
 
         <conditional name="control">
             <param name="control_selector" type="boolean" label="Control available" value="false"/>
             <when value="true">
                 <param name="control_file" type="data" format="bam" label="Control BAM"
-                       description="Control BAM reads to process"/>
+                       description="Control BAM reads to process" argument="--control"/>
             </when>
         </conditional>
 
@@ -48,13 +55,13 @@
             </when>
             <when value="peaks">
                 <param name="model_file" type="text" value="model.span" label="Model file name"/>
-                <param name="fdr" size="5" type="float" value="0.0001" label="FDR"/>
-                <param name="gap" size="5" type="integer" value="5" label="GAP"/>
-                <param name="peaks_file" type="text" value="result.peak" label="Peaks file name"/>
+                <param name="fdr" size="5" type="float" value="0.0001" label="FDR" argument="--fdr"/>
+                <param name="gap" size="5" type="integer" value="5" label="GAP" argument="--gap"/>
+                <param name="peaks_file" type="text" value="result.peak" label="Peaks file name" argument="--peaks"/>
             </when>
         </conditional>
 
-        <param name="bin" size="5" type="integer" value="200" label="Bin size"/>
+        <param name="bin" size="5" type="integer" value="200" label="Bin size" argument="--bin"/>
     </inputs>
     <outputs>
         <data name="${action.model_file}" format="span" label="SPAN model file"/>
@@ -62,8 +69,74 @@
             <filter>action['action_selector'] == "peaks"</filter>
         </data>
     </outputs>
+        <help><![CDATA[
+.. class:: infomark
+
+**What it does**
+
+SPAN Semi-supervised Peak Analyzer is a tool for analyzing ChIP-seq data.
+
+-----
+
+**Inputs**
+
+*-t, --treatment TREATMENT*
+**Required.** ChIP-seq treatment file. Supported formats: BAM, BED, BED.gz. If multiple files are given, treated as replicates. Multiple files should be separated by commas: -t A,B,C. Multiple files are processed as replicates on model level.
+
+*-c, --control CONTROL*
+Control file. Multiple files should be separated by commas. Single control file or separate file per each treatment file required.
+Follow instructions for -t, --treatment TREATMENT.
+
+*-cs, --chrom.sizes CHROMOSOMES_SIZES*
+**Required.** Chromosome sizes file for genome build used in TREATMENT and CONTROL files.
+Can be downloaded at http://hgdownload.cse.ucsc.edu/goldenPath/<build>/bigZips/<build>.chrom.sizes
+
+*-b, --bin BIN_SIZE*
+Peak analysis is performed on read coverage tiled into consequent bins, with size being configurable. Default value is 200bp, approximately the length of one nucleosome.
+
+*--fragment FRAGMENT*
+Fragment size used to convert reads into tags. Default value is half the read length.
+
+*-p, --peaks PEAKS*
+Resulting peaks file in ENCODE broadPeak* (BED 6+3) format. If omitted, only model fitting step is performed.
+
+*-f, --fdr FDR*
+Minimum FDR cutoff to call significant regions, default value is 1.0E-6.
+SPAN reports p- and q- values for the null hypothesis that a given bin is not enriched with a histone modification.
+Peaks are formed from a list of truly (in the FDR sense) enriched bins for the analyzed biological condition by thresholding the Q-value with a cutoff FDR and merging spatially close peaks using GAP option to broad ones. This is equivalent to controlling FDR.
+q-values are are calculated from p-values using Benjamini-Hochberg procedure.
+
+*-g, --gap GAP*
+Gap size to merge spatially close peaks. Useful for wide histone modifications. Default value is 5, i.e. peaks separated by 5*BIN distance or less are merged.
+
+-----
+
+**Outputs**
+
+This tool produces a SPAN model file and/or peaks in ENCODE *BED6+3* format.
+
+Peak file columns contain the following data:
+
+* **1st**: chromosome name
+* **2nd**: start position of peak
+* **3rd**: end position of peak
+* **4th**: name of peak
+* **5th**: integer score for display in genome browser (e.g. UCSC)
+* **6th**: strand, either "." (=no strand) or "+" or "-"
+* **7th**: fold-change
+* **8th**: -log10pvalue
+* **9th**: -log10qvalue
+
+-----
+
+**More Information**
+
+http://artyomovlab.wustl.edu/aging/span.html
+
+]]></help>
+
     <help>
-        SPAN Semi-supervised Peak Analyzer is a tool for analyzing ChIP-seq data.
-        Details: http://artyomovlab.wustl.edu/aging/span.html
+
+
     </help>
 </tool>
