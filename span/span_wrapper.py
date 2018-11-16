@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import shutil
 import subprocess
 import sys
 
@@ -44,9 +45,13 @@ print 'Using SPAN Peak Analyzer distributive file {0}'.format(SPAN_JAR)
 action = argv[0]
 control = argv[1]
 
+working_dir = os.path.abspath('.')
+print 'WORKING DIRECTORY: {}'.format(working_dir)
+
 
 def link(name, f):
-    result = os.path.join(os.path.abspath('.'), name)
+    """ SPAN uses file extension to detect input type, so original names are necessary, instead of Galaxy .dat files"""
+    result = os.path.join(working_dir, name)
     os.symlink(f, result)
     return result
 
@@ -64,7 +69,6 @@ if action == 'model':
             link(control, control_file),
             bin
         )
-        print "MODEL FILE" + model_file
     elif control == 'without_control':
         (chrom_sizes, chrom_sizes_file,
          treatment, treatment_file,
@@ -75,7 +79,6 @@ if action == 'model':
             link(treatment, treatment_file),
             bin
         )
-        print "MODEL FILE" + model_file
     else:
         raise Exception("Unknown control option {}".format(control))
 
@@ -92,9 +95,8 @@ elif action == "peaks":
             link(treatment, treatment_file),
             link(control, control_file),
             bin, fdr, gap,
-            peaks_file
+            os.path.join(working_dir, peaks_file)
         )
-        print "MODEL FILE" + model_file
     elif control == 'without_control':
         (chrom_sizes, chrom_sizes_file,
          treatment, treatment_file,
@@ -105,13 +107,24 @@ elif action == "peaks":
             link(chrom_sizes, chrom_sizes_file),
             link(treatment, treatment_file),
             bin, fdr, gap,
-            peaks_file
+            os.path.join(working_dir, peaks_file)
         )
-        print "MODEL FILE" + model_file
     else:
         raise Exception("Unknown control option {}".format(control))
 else:
     raise Exception("Unknown action command {}".format(action))
 
-print 'Launching SPAN: {0}'.format(cmd)
+
+print 'Launching SPAN: {}'.format(cmd)
+print 'Model file: {}'.format(model_file)
+try:
+    print 'Peaks file: {}'.format(peaks_file)
+except NameError:
+    pass
+
 subprocess.check_call(cmd, cwd=None, shell=True)
+
+# Move model to the the working dir with given name
+fit_dir = os.path.join(working_dir, 'fit')
+model_original = os.path.join(fit_dir, os.listdir(fit_dir)[0])
+shutil.move(model_original, os.path.join(working_dir, model_file))

@@ -37,27 +37,30 @@
             "${treatment_identifier}" "${treatment_file}"
             "${bin}" "${action.model_file}"
             "${control_identifier}" "${control.control_file}"
-            "${fdr}" "${gap}" "${action.peaks_file}"
+            "${action.fdr}" "${action.gap}" "${action.peaks_file}"
     #else
-        span_wrapper.py peaks with_control
+        span_wrapper.py peaks without_control
             "${genome_identifier}" "${genome_file}"
             "${treatment_identifier}" "${treatment_file}"
             "${bin}" "${action.model_file}"
-            "${fdr}" "${gap}" "${action.peaks_file}"
+            "${action.fdr}" "${action.gap}" "${action.peaks_file}"
     #end if
 #end if
      </command>
     <inputs>
         <param name="treatment_file" type="data" format="bam" label="Treatment BAM"
-               description="Treatment BAM reads to process" argument="--treatment"/>
+               description="Treatment BAM reads to process" argument="--treatment"
+               help="Treatment BAM reads to process"/>
         <param name="genome_file" type="data" format="chrom.sizes" label="Genome chrom.sizes"
-               description="Genome build chrom.sizes file" argument="--chrom.sizes"/>
+               description="Genome build chrom.sizes file" argument="--chrom.sizes"
+               help="Genome build chrom.sizes file"/>
 
         <conditional name="control">
             <param name="control_selector" type="boolean" label="Control available" value="false"/>
             <when value="true">
                 <param name="control_file" type="data" format="bam" label="Control BAM"
-                       description="Control BAM reads to process" argument="--control"/>
+                       description="Control BAM reads to process" argument="--control"
+                       help="Control BAM reads to process"/>
             </when>
         </conditional>
 
@@ -67,25 +70,38 @@
                 <option value="peaks">Compute SPAN model and produce peaks file</option>
             </param>
             <when value="model">
-                <param name="model_file" type="text" value="model.span" label="Model name"/>
+                <param name="model_file" type="text" value="model.span" label="Model name"
+                       help="Trained model file in binary format, which can be visualized directly in JBR Genome Browser
+                       and used in integrated peak calling pipeline"/>
             </when>
             <when value="peaks">
-                <param name="model_file" type="text" value="model.span" label="Model file name"/>
-                <param name="fdr" size="5" type="float" value="0.0001" label="FDR" argument="--fdr"/>
-                <param name="gap" size="5" type="integer" value="5" label="GAP" argument="--gap"/>
+                <param name="model_file" type="text" value="model.span" label="Model file name"
+                       help="Trained model file in binary format, which can be visualized directly in JBR Genome Browser
+                       and used in integrated peak calling pipeline"/>
+                <param name="fdr" size="5" type="float" value="0.0001" label="FDR" argument="--fdr"
+                       help="Minimum FDR cutoff to call significant regions, default value is 1.0E-6.
+                       SPAN reports p- and q- values for the null hypothesis that a given bin is not enriched with a histone modification.
+                       Peaks are formed from a list of truly (in the FDR sense) enriched bins for the analyzed biological condition by thresholding the
+                       Q-value with a cutoff FDR and merging spatially close peaks using GAP option to broad ones. This is equivalent to controlling FDR.
+                       q-values are are calculated from p-values using Benjamini-Hochberg procedure."/>
+                <param name="gap" size="5" type="integer" value="5" label="GAP" argument="--gap"
+                       help="Gap size to merge spatially close peaks. Useful for wide histone modifications.
+                       Default value is 5, i.e. peaks separated by 5*BIN distance or less are merged."/>
                 <param name="peaks_file" type="text" value="result.peak" label="Peaks file name" argument="--peaks"/>
             </when>
         </conditional>
 
-        <param name="bin" size="5" type="integer" value="200" label="Bin size" argument="--bin"/>
+        <param name="bin" size="5" type="integer" value="200" label="Bin size" argument="--bin"
+               help="Peak analysis is performed on read coverage tiled into consequent bins, with size being configurable.
+               Default value is 200bp, approximately the length of one nucleosome."/>
     </inputs>
     <outputs>
-        <data name="${action.model_file}" format="span" label="SPAN model file"/>
-        <data name="${action.peaks_file}" format="bed" label="SPAN peaks file">
+        <data name="SPAN model file" format="span" from_work_dir="*.span" default_identifier_source="treatment_file"  label="SPAN model file ${action.model_file}"/>
+        <data name="SPAN peaks file" format="bed" from_work_dir="*.peak" default_identifier_source="treatment_file"  label="SPAN peaks file ${action.peaks_file}">
             <filter>action['action_selector'] == "peaks"</filter>
         </data>
     </outputs>
-        <help><![CDATA[
+    <help><![CDATA[
 .. class:: infomark
 
 **What it does**
@@ -96,40 +112,28 @@ SPAN Semi-supervised Peak Analyzer is a tool for analyzing ChIP-seq data.
 
 **Inputs**
 
-*-t, --treatment TREATMENT*
-**Required.** ChIP-seq treatment file. Supported formats: BAM, BED, BED.gz. If multiple files are given, treated as replicates. Multiple files should be separated by commas: -t A,B,C. Multiple files are processed as replicates on model level.
+*-t, --treatment <Path>*        **Required.** ChIP-seq treatment file. bam, bed or .bed.gz file; If multiple files are given, treated as replicates.
 
-*-c, --control CONTROL*
-Control file. Multiple files should be separated by commas. Single control file or separate file per each treatment file required.
-Follow instructions for -t, --treatment TREATMENT.
+*--chrom.sizes, --cs <Path>*    **Required.** Chromosome sizes path, can be downloaded at http://hgdownload.cse.ucsc.edu/goldenPath/<build>/bigZips/<build>.chrom.sizes
 
-*-cs, --chrom.sizes CHROMOSOMES_SIZES*
-**Required.** Chromosome sizes file for genome build used in TREATMENT and CONTROL files.
-Can be downloaded at http://hgdownload.cse.ucsc.edu/goldenPath/<build>/bigZips/<build>.chrom.sizes
+*-c, --control <Path>*          Control file. bam, bed or bed.gz file; Single control file or separate file per each treatment file required.
 
-*-b, --bin BIN_SIZE*
-Peak analysis is performed on read coverage tiled into consequent bins, with size being configurable. Default value is 200bp, approximately the length of one nucleosome.
+*--fragment <Integer>*          Fragment size, read length if not given
 
-*--fragment FRAGMENT*
-Fragment size used to convert reads into tags. Default value is half the read length.
+*-b, --bin <Integer>*           Bin size
 
-*-p, --peaks PEAKS*
-Resulting peaks file in ENCODE broadPeak* (BED 6+3) format. If omitted, only model fitting step is performed.
+*-f, --fdr <Double>*            Fdr value
 
-*-f, --fdr FDR*
-Minimum FDR cutoff to call significant regions, default value is 1.0E-6.
-SPAN reports p- and q- values for the null hypothesis that a given bin is not enriched with a histone modification.
-Peaks are formed from a list of truly (in the FDR sense) enriched bins for the analyzed biological condition by thresholding the Q-value with a cutoff FDR and merging spatially close peaks using GAP option to broad ones. This is equivalent to controlling FDR.
-q-values are are calculated from p-values using Benjamini-Hochberg procedure.
+*-g, --gap <Integer>*           Gap size to merge peaks
 
-*-g, --gap GAP*
-Gap size to merge spatially close peaks. Useful for wide histone modifications. Default value is 5, i.e. peaks separated by 5*BIN distance or less are merged.
+*-p, --peaks <Path>*            Path to result peaks file in ENCODE broadPeak (BED 6+3) format
+
 
 -----
 
 **Outputs**
 
-This tool produces a SPAN model file and/or peaks in ENCODE *BED6+3* format.
+This tool produces a SPAN binary model file and/or peaks in ENCODE broadPeak (BED 6+3) format.
 
 Peak file columns contain the following data:
 
@@ -145,14 +149,20 @@ Peak file columns contain the following data:
 
 -----
 
+**SPAN workflow**
+
+* Convert raw reads to tags using *FRAGMENT* parameter.
+* Compute coverage for all genome tiled into bins of *BIN* base pairs.
+* Fit 3-state hidden Markov model that classifies bins as ZERO states with no coverage, LOW states of non-specific binding, and HIGH states of the specific binding.
+* Compute posterior HIGH state probability of each bin.
+* Trained model is saved into *.span* binary format.
+* Peaks are computed using trained model and *FDR* and *GAP* parameters.
+
+-----
+
 **More Information**
 
-http://artyomovlab.wustl.edu/aging/span.html
+https://artyomovlab.wustl.edu/aging/span.html
 
 ]]></help>
-
-    <help>
-
-
-    </help>
 </tool>
