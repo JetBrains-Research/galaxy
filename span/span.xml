@@ -1,5 +1,5 @@
 <tool id="span" name="SPAN" version="0.7.1.4272">
-    <description>ChIP-Seq analysis</description>
+    <description>Semi-supervised Peak Analyzer for ChIP-Seq data</description>
     <requirements>
         <requirement type="package" version="0.7.1.4272">package_span_jar</requirement>
     </requirements>
@@ -96,10 +96,11 @@
                Default value is 200bp, approximately the length of one nucleosome."/>
     </inputs>
     <outputs>
-        <data name="SPAN model file" format="span" from_work_dir="*.span" default_identifier_source="treatment_file"  label="SPAN model file ${action.model_file}"/>
-        <data name="SPAN peaks file" format="bed" from_work_dir="*.peak" default_identifier_source="treatment_file"  label="SPAN peaks file ${action.peaks_file}">
+        <data name="SPAN model file" format="span" from_work_dir="*.span" label="SPAN model file ${action.model_file} on ${on_string}"/>
+        <data name="SPAN peaks file" format="bed" from_work_dir="*.peak" label="SPAN peaks file ${action.peaks_file} on ${on_string}">
             <filter>action['action_selector'] == "peaks"</filter>
         </data>
+        <data name="SPAN log file" format="txt" from_work_dir="*.log" label="SPAN log file on ${on_string}"/>
     </outputs>
     <help><![CDATA[
 .. class:: infomark
@@ -158,11 +159,18 @@ Peak file columns contain the following data:
 * Trained model is saved into *.span* binary format.
 * Peaks are computed using trained model and *FDR* and *GAP* parameters.
 
+------
+
+**Citation**
+
+If you use this tool in Galaxy, please cite XXX, et al. *In preparation.*
+
 -----
 
 **More Information**
 
-https://artyomovlab.wustl.edu/aging/span.html
+* Project home page: https://research.jetbrains.org/groups/biolabs/tools/span-peak-analyzer
+* Study cases: https://artyomovlab.wustl.edu/aging
 
 ]]></help>
 </tool>

@@ -41,7 +41,7 @@ print 'Using SPAN Peak Analyzer distributive file {0}'.format(SPAN_JAR)
 #     #end if
 # #end if
 
-# See http://artyomovlab.wustl.edu/aging/span.html for command line options
+# See https://research.jetbrains.org/groups/biolabs/tools/span-peak-analyzer for command line options
 action = argv[0]
 control = argv[1]
 
@@ -128,3 +128,8 @@ subprocess.check_call(cmd, cwd=None, shell=True)
 fit_dir = os.path.join(working_dir, 'fit')
 model_original = os.path.join(fit_dir, os.listdir(fit_dir)[0])
 shutil.move(model_original, os.path.join(working_dir, model_file))
+
+# Move log file
+logs_dir = os.path.join(working_dir, 'logs')
+log_original = os.path.join(logs_dir, os.listdir(logs_dir)[0])
+shutil.move(log_original, os.path.join(working_dir, "span.log"))
