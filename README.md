@@ -28,6 +28,10 @@ galaxy.tools.toolbox.base DEBUG 2018-10-30 16:31:45,941 [p:8990,w:0,m:0] [MainTh
 ```
 ![SPAN as a tool for Galaxy](span.png)
 
+Example of files produced by `SPAN`.
+
+![SPAN peak calling results in Galaxy](span_results.png)
+
 Development
 -----------
 Galaxy updates tools definitions on-the-fly, the only limitation is that dependencies ARE NOT PROCESSED for locally installed tools.
@@ -37,12 +41,12 @@ Publish to tool shed
 --------------------
 * Login to [ToolShed](https://toolshed.g2.bx.psu.edu/repository/create_repository)
 * Create repository at Toolshed via Available Actions | Create new repository
-![Create span dedicated mercurial repo](toolshed.png)
+![Create span dedicated mercurial repo](span_toolshed.png)
 * Update tool files
 * Invoke **Repository Actions** | **Reset all repository metadata**
 * Voila, tool shed version is synchronized with mercurial repo
 * Now you will be able to install `SPAN` from official tool shed
-![SPAN installed successfully](installed.png)
+![SPAN installed successfully](span_installed.png)
 
 
 
@@ -51,7 +55,7 @@ There are 2 options to update repository files:
 * Upload files from UI action Upload files to repository
     1. Create `.tar.gz` file
     2. Upload it
-![Upload files to mercurial repository](addfiles.png)    
+![Upload files to mercurial repository](span_addfiles.png)    
 
 * Clone mercurial repository locally
     1. Clone repository locally.
