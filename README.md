@@ -53,7 +53,7 @@ Publish to tool shed
 There are 2 options to update repository files:
 
 * Upload files from UI action Upload files to repository
-    1. Create `.tar.gz` file
+    1. Create `.tar.gz` archive with command `tar -czvf span.tar.gz *` within `span` folder.
     2. Upload it
 ![Upload files to mercurial repository](span_addfiles.png)    
 
