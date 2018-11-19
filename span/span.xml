@@ -9,41 +9,33 @@
         <exit_code range=":-1"/>
     </stdio>
     <command interpreter="python">
-#import re
-#set treatment_identifier = re.sub('[^\w\-\.]', '_', str($treatment_file.element_identifier))
-#set genome_identifier = re.sub('[^\w\-\.]', '_', str($genome_file.element_identifier))
-
-#if $control.control_selector
-    #set control_identifier = re.sub('[^\w\-\.]', '_', str($control.control_file.element_identifier))
-#end if
-
 #if str($action.action_selector) == "model"
-    #if $control.control_selector
-        span_wrapper.py model with_control
-            "${genome_identifier}" "${genome_file}"
-            "${treatment_identifier}" "${treatment_file}"
-            "${bin}" "${action.model_file}"
-            "${control_identifier}" "${control.control_file}"
+    #if str($control_file) != 'None':
+        span_wrapper.py model_with_control
+            "${genome_file.name}" "${genome_file}"
+            "${treatment_file.name}" "${treatment_file}"
+            "${control_file.name}" "${control_file}"
+            "${bin}"
     #else
-        span_wrapper.py model without_control
-            "${genome_identifier}" "${genome_file}"
-            "${treatment_identifier}" "${treatment_file}"
-            "${bin}" "${action.model_file}"
+        span_wrapper.py model_without_control
+            "${genome_file.name}" "${genome_file}"
+            "${treatment_file.name}" "${treatment_file}"
+            "${bin}"
     #end if
 #else
-    #if $control.control_selector
-        span_wrapper.py peaks with_control
-            "${genome_identifier}" "${genome_file}"
-            "${treatment_identifier}" "${treatment_file}"
-            "${bin}" "${action.model_file}"
-            "${control_identifier}" "${control.control_file}"
-            "${action.fdr}" "${action.gap}" "${action.peaks_file}"
+    #if str($control_file) != 'None':
+        span_wrapper.py peaks_with_control
+            "${genome_file.name}" "${genome_file}"
+            "${treatment_file.name}" "${treatment_file}"
+            "${control_file.name}" "${control_file}"
+            "${bin}"
+            "${action.fdr}" "${action.gap}"
     #else
-        span_wrapper.py peaks without_control
-            "${genome_identifier}" "${genome_file}"
-            "${treatment_identifier}" "${treatment_file}"
-            "${bin}" "${action.model_file}"
-            "${action.fdr}" "${action.gap}" "${action.peaks_file}"
+        span_wrapper.py peaks_without_control
+            "${genome_file.name}" "${genome_file}"
+            "${treatment_file.name}" "${treatment_file}"
+            "${bin}"
+            "${action.fdr}" "${action.gap}"
     #end if
 #end if
      </command>
@@ -51,33 +43,20 @@
         <param name="treatment_file" type="data" format="bam" label="Treatment BAM"
                description="Treatment BAM reads to process" argument="--treatment"
                help="Treatment BAM reads to process"/>
+
+        <param name="control_file" type="data" format="BAM" label="Control BAM" optional="True"
+               argument="--control" help="Control BAM reads to process"/>
+
         <param name="genome_file" type="data" format="chrom.sizes" label="Genome chrom.sizes"
                description="Genome build chrom.sizes file" argument="--chrom.sizes"
                help="Genome build chrom.sizes file"/>
-
-        <conditional name="control">
-            <param name="control_selector" type="boolean" label="Control available" value="false"/>
-            <when value="true">
-                <param name="control_file" type="data" format="bam" label="Control BAM"
-                       description="Control BAM reads to process" argument="--control"
-                       help="Control BAM reads to process"/>
-            </when>
-        </conditional>
 
         <conditional name="action">
             <param name="action_selector" type="select" label="Action">
                 <option value="model">Compute SPAN model</option>
                 <option value="peaks">Compute SPAN model and produce peaks file</option>
             </param>
-            <when value="model">
-                <param name="model_file" type="text" value="model.span" label="Model name"
-                       help="Trained model file in binary format, which can be visualized directly in JBR Genome Browser
-                       and used in integrated peak calling pipeline"/>
-            </when>
             <when value="peaks">
-                <param name="model_file" type="text" value="model.span" label="Model file name"
-                       help="Trained model file in binary format, which can be visualized directly in JBR Genome Browser
-                       and used in integrated peak calling pipeline"/>
                 <param name="fdr" size="5" type="float" value="0.0001" label="FDR" argument="--fdr"
                        help="Minimum FDR cutoff to call significant regions, default value is 1.0E-6.
                        SPAN reports p- and q- values for the null hypothesis that a given bin is not enriched with a histone modification.
@@ -87,7 +66,6 @@
                 <param name="gap" size="5" type="integer" value="5" label="GAP" argument="--gap"
                        help="Gap size to merge spatially close peaks. Useful for wide histone modifications.
                        Default value is 5, i.e. peaks separated by 5*BIN distance or less are merged."/>
-                <param name="peaks_file" type="text" value="result.peak" label="Peaks file name" argument="--peaks"/>
             </when>
         </conditional>
 
@@ -96,11 +74,13 @@
                Default value is 200bp, approximately the length of one nucleosome."/>
     </inputs>
     <outputs>
-        <data name="SPAN model file" format="span" from_work_dir="*.span" label="SPAN model file ${action.model_file} on ${on_string}"/>
-        <data name="SPAN peaks file" format="bed" from_work_dir="*.peak" label="SPAN peaks file ${action.peaks_file} on ${on_string}">
+        <data name="model.span" format="span" from_work_dir="*.span"
+              label="SPAN model on ${on_string} (${treatment_file.name}#if str($control_file) != 'None' then '_{}'.format($control_file.name) else '' #_${bin})"/>
+        <data name="result.peak" format="bed" from_work_dir="*.peak"
+              label="SPAN peaks on ${on_string} (${treatment_file.name}#if str($control_file) != 'None' then '_{}'.format($control_file.name) else '' #_${bin}_${action.fdr}_${action.gap})">
             <filter>action['action_selector'] == "peaks"</filter>
         </data>
-        <data name="SPAN log file" format="txt" from_work_dir="*.log" label="SPAN log file on ${on_string}"/>
+        <data name="span.log" format="txt" from_work_dir="*.log" label="SPAN logs on ${on_string}"/>
     </outputs>
     <help><![CDATA[
 .. class:: infomark
@@ -134,7 +114,7 @@ SPAN Semi-supervised Peak Analyzer is a tool for analyzing ChIP-seq data.
 
 **Outputs**
 
-This tool produces a SPAN binary model file and/or peaks in ENCODE broadPeak (BED 6+3) format.
+This tool produces a SPAN binary model file (can be visualized in JBR Genome Browser and used in semi-supervised peak calling) and/or peaks in ENCODE broadPeak (BED 6+3) format.
 
 Peak file columns contain the following data:
 
