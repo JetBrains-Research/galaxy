@@ -1,6 +1,9 @@
-JetBrains Research Biolabs Galaxy Applications
-==============================================
-* [SPAN](https://toolshed.g2.bx.psu.edu/view/jetbrains/span) - a [tool](http://artyomovlab.wustl.edu/aging/span.html) for analyzing and comparing ChIP-Seq data
+Galaxy Wrappers
+===============
+This repository contains wrappers for Galaxy for the following applications:
+* [SPAN](https://toolshed.g2.bx.psu.edu/view/jetbrains/span) - a [tool](https://research.jetbrains.org/groups/biolabs/tools/span-peak-analyzer) for analyzing and comparing ChIP-Seq data
+
+It **doesn't contain** source code of the applications.
 
 Local Galaxy & tools installation
 ------------------
@@ -66,9 +69,10 @@ There are 2 options to update repository files:
 
 
 
-Useful links
-------------
+Resources
+---------
+ * JetBrains Research BioLabs [homepage](http://research.jetbrains.org/groups/biolabs)
  * [Develop Galaxy apps](https://wiki.galaxyproject.org/Develop)
  * [Add Galaxy tool tutorial](https://wiki.galaxyproject.org/Admin/Tools/AddToolTutorial)
  * [Biostar Galaxy](https://biostar.usegalaxy.org)
- * JetBrains Research BioLabs [homepage](http://research.jetbrains.org/groups/biolabs)
+
