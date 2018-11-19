@@ -16,7 +16,7 @@ print 'Using SPAN Peak Analyzer distributive file {0}'.format(SPAN_JAR)
 #         span_wrapper.py model_with_control
 #             "${genome_identifier}" "${genome_file}"
 #             "${treatment_identifier}" "${treatment_file}"
-#             "${control_identifier}" "${control.control_file}"
+#             "${control_identifier}" "${control_file}"
 #             "${bin}"
 #
 #     #else
@@ -30,7 +30,7 @@ print 'Using SPAN Peak Analyzer distributive file {0}'.format(SPAN_JAR)
 #         span_wrapper.py peaks_with_control
 #             "${genome_identifier}" "${genome_file}"
 #             "${treatment_identifier}" "${treatment_file}"
-#             "${control_identifier}" "${control.control_file}"
+#             "${control_identifier}" "${control_file}"
 #             "${bin}"
 #             "${action.fdr}" "${action.gap}"
 #     #else
