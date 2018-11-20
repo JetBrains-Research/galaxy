@@ -40,6 +40,8 @@ Development
 Galaxy updates tools definitions on-the-fly, the only limitation is that dependencies ARE NOT PROCESSED for locally installed tools.
 In span case we should configure `$SPAN_JAR` environmental variable to point to span java archive file to overcome this limitation.
 
+See for details: https://biostar.usegalaxy.org/p/10433/
+
 Publish to tool shed
 --------------------
 * Login to [ToolShed](https://toolshed.g2.bx.psu.edu/repository/create_repository)
