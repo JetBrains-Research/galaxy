@@ -57,19 +57,19 @@
                 <option value="peaks">Compute SPAN model and produce peaks file</option>
             </param>
             <when value="peaks">
-                <param name="fdr" size="5" type="float" value="0.0001" label="FDR" argument="--fdr"
+                <param name="fdr" size="5" type="float" value="0.0001" min="0" label="FDR" argument="--fdr"
                        help="Minimum FDR cutoff to call significant regions, default value is 1.0E-6.
                        SPAN reports p- and q- values for the null hypothesis that a given bin is not enriched with a histone modification.
                        Peaks are formed from a list of truly (in the FDR sense) enriched bins for the analyzed biological condition by thresholding the
                        Q-value with a cutoff FDR and merging spatially close peaks using GAP option to broad ones. This is equivalent to controlling FDR.
                        q-values are are calculated from p-values using Benjamini-Hochberg procedure."/>
-                <param name="gap" size="5" type="integer" value="5" label="GAP" argument="--gap"
+                <param name="gap" size="3" type="integer" value="5" min="0" label="GAP" argument="--gap"
                        help="Gap size to merge spatially close peaks. Useful for wide histone modifications.
                        Default value is 5, i.e. peaks separated by 5*BIN distance or less are merged."/>
             </when>
         </conditional>
 
-        <param name="bin" size="5" type="integer" value="200" label="Bin size" argument="--bin"
+        <param name="bin" size="5" type="integer" value="200" min="50" max="10000" label="Bin size" argument="--bin"
                help="Peak analysis is performed on read coverage tiled into consequent bins, with size being configurable.
                Default value is 200bp, approximately the length of one nucleosome."/>
     </inputs>
