@@ -5,14 +5,18 @@ This repository contains wrappers for Galaxy for the following applications:
 
 It **doesn't contain** source code of the applications.
 
-Local Galaxy & local tools development
+Local Galaxy installation
 ------------------
 * Install [Galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy). Checkout latest release: `git clone -b release_18.05 https://github.com/galaxyproject/galaxy.git`
 * Galaxy relies on [Conda](https://anaconda.org) in dependencies management, sometimes conda packages 
 can conflict with locally installed packages, e.g. installed by `pip`, `conda` or `homebrew` on MacOS. The workaround is to removed them.
-Workaround is to disable/uninstall them while developing with Galaxy.
+Workaround is to disable/uninstall them while developing with Galaxy. 
 * Launch `bash run.sh` and ensure Galaxy is serving at http://127.0.0.1:8080
-* Create config by copying `config/galaxy.ini.sample` to `config/galaxy.ini` 
+* Configure admin user to be able to install 3rd party tools from ToolShed. 
+Create config by copying `config/galaxy.yml.sample` to `config/galaxy.yml` and change `#admin_users: null` record.
+
+Local applications development
+------------------------------
 * Copy `span` folder to your local Galaxy installation under `tools` folder. 
 For development purposes you can create symbolic link instead of copying, 
 Galaxy recognizes all the filesystem changes and reloads tools on the fly. 
