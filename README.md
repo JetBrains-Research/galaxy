@@ -14,7 +14,12 @@ Workaround is to disable/uninstall them while developing with Galaxy.
 * Launch `bash run.sh` and ensure Galaxy is serving at http://127.0.0.1:8080
 * Configure admin user to be able to install 3rd party tools from ToolShed. 
 Create config by copying `config/galaxy.yml.sample` to `config/galaxy.yml` and change `#admin_users: null` record.
-
+* Install `span` from the official Galaxy ToolShed.
+To verify installation went smoothly and dependencies are installed you should get 2 files available:
+```
+ls <GALAXY_FOLDER>/database/dependencies/package_span_jar/<VERSION>/jetbrains/span/<HASH>
+env.sh              span-<VERSION>.jar
+```
 Local applications development
 ------------------------------
 * Copy `span` folder to your local Galaxy installation under `tools` folder. 
@@ -30,7 +35,6 @@ Galaxy recognizes all the filesystem changes and reloads tools on the fly.
 If everything goes successfully you should see the following output:
 ```
 galaxy.tools.toolbox.base DEBUG 2018-10-30 16:31:45,941 [p:8990,w:0,m:0] [MainThread] Loading section: JetBrains Research tools
-galaxy.tools.toolbox.base DEBUG 2018-10-30 16:31:45,941 [p:8990,w:0,m:0] [MainThread] Loaded tool id: span, version: 0.7.1.4272 into tool panel..
 ```
 ![SPAN as a tool for Galaxy](span.png)
 
