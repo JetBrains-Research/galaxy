@@ -1,4 +1,4 @@
-<tool id="span" name="SPAN" version="0.7.1.4518">
+<tool id="span" name="SPAN" version="0.7.1.4518a">
     <description>Semi-supervised Peak Analyzer for ChIP-Seq data</description>
     <requirements>
         <requirement type="package" version="0.7.1.4518">package_span_jar</requirement>
