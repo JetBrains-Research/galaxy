@@ -11,37 +11,10 @@ print 'Arguments {0}'.format(argv)
 SPAN_JAR = os.environ.get("SPAN_JAR")
 print 'Using SPAN Peak Analyzer distributive file {0}'.format(SPAN_JAR)
 
-# #if str($action.action_selector) == "model"
-#     #if str($control_file) != 'None':
-#         span_wrapper.py model_with_control
-#             "${genome_identifier}" "${genome_file}"
-#             "${treatment_identifier}" "${treatment_file}"
-#             "${control_identifier}" "${control_file}"
-#             "${bin}"
-#
-#     #else
-#         span_wrapper.py model without_control
-#             "${genome_identifier}" "${genome_file}"
-#             "${treatment_identifier}" "${treatment_file}"
-#             "${bin}"
-#     #end if
-# #else
-#     #if str($control_file) != 'None':
-#         span_wrapper.py peaks_with_control
-#             "${genome_identifier}" "${genome_file}"
-#             "${treatment_identifier}" "${treatment_file}"
-#             "${control_identifier}" "${control_file}"
-#             "${bin}"
-#             "${action.fdr}" "${action.gap}"
-#     #else
-#         span_wrapper.py peaks_without_control
-#             "${genome_identifier}" "${genome_file}"
-#             "${treatment_identifier}" "${treatment_file}"
-#             "${bin}"
-#             "${action.fdr}" "${action.gap}"
-#     #end if
-# #end if
-action = argv[0]
+MEMORY = argv[0]
+THREADS = argv[1]
+ACTION = argv[2]
+argv = argv[3:]
 
 working_dir = os.path.abspath('.')
 print 'WORKING DIRECTORY: {}'.format(working_dir)
@@ -55,54 +28,64 @@ def link(name, f):
     return result
 
 
-if action == 'model_with_control':
+if ACTION == 'model_with_control':
     (chrom_sizes, chrom_sizes_file,
      treatment, treatment_file,
      control, control_file,
-     bin) = argv[1:]
-    cmd = 'java -jar {} analyze --chrom.sizes {} --treatment {} --control {} --bin {}'.format(
-        SPAN_JAR,
+     bin) = argv
+    cmd = 'java -Xmx{}m -jar {} analyze --threads {} ' \
+          '--chrom.sizes {} --treatment {} --control {} --bin {}'.format(
+        MEMORY, SPAN_JAR, THREADS,
         link(chrom_sizes, chrom_sizes_file),
         link(treatment, treatment_file),
         link(control, control_file),
         bin)
-elif action == 'model_without_control':
+
+elif ACTION == 'model_without_control':
     (chrom_sizes, chrom_sizes_file,
      treatment, treatment_file,
-     bin) = argv[1:]
-    cmd = 'java -jar {} analyze --chrom.sizes {} --treatment {} --bin {}'.format(
-        SPAN_JAR,
+     bin) = argv
+    cmd = 'java -Xmx{}m -jar {} analyze --threads {} ' \
+          '--chrom.sizes {} --treatment {} --bin {}'.format(
+        MEMORY, SPAN_JAR, THREADS,
         link(chrom_sizes, chrom_sizes_file),
         link(treatment, treatment_file),
         bin)
-elif action == "peaks_with_control":
+
+elif ACTION == "peaks_with_control":
     (chrom_sizes, chrom_sizes_file,
      treatment, treatment_file,
      control, control_file,
      bin,
-     fdr, gap) = argv[1:]
-    cmd = 'java -jar {} analyze --chrom.sizes {} --treatment {} --control {} ' \
-          '--bin {} --fdr {} --gap {} --peaks {}'.format(
-        SPAN_JAR,
+     fdr, gap) = argv
+    cmd = 'java -Xmx{}m -jar {} analyze --threads {} ' \
+          '--chrom.sizes {} --treatment {} --control {} --bin {} --fdr {} --gap {} --peaks {}'.format(
+        MEMORY, SPAN_JAR, THREADS,
         link(chrom_sizes, chrom_sizes_file),
         link(treatment, treatment_file),
         link(control, control_file),
         bin, fdr, gap,
         os.path.join(working_dir, 'result.peak'))
-elif action == 'peaks_without_control':
+
+elif ACTION == 'peaks_without_control':
     (chrom_sizes, chrom_sizes_file,
      treatment, treatment_file,
      bin,
-     fdr, gap) = argv[1:]
-    cmd = 'java -jar {} analyze --chrom.sizes {} --treatment {} -' \
-          '-bin {} --fdr {} --gap {} --peaks {}'.format(
-        SPAN_JAR,
+     fdr, gap) = argv
+    cmd = 'java -Xmx{}m -jar {} analyze --threads {} ' \
+          '--chrom.sizes {} --treatment {} -bin {} --fdr {} --gap {} --peaks {}'.format(
+        MEMORY, SPAN_JAR, THREADS,
         link(chrom_sizes, chrom_sizes_file),
         link(treatment, treatment_file),
         bin, fdr, gap,
         os.path.join(working_dir, 'result.peak'))
+    (chrom_sizes, chrom_sizes_file,
+     treatment, treatment_file,
+     bin,
+     fdr, gap) = argv
+
 else:
-    raise Exception("Unknown action command {}".format(action))
+    raise Exception("Unknown action command {}".format(ACTION))
 
 print 'Launching SPAN: {}'.format(cmd)
 subprocess.check_call(cmd, cwd=None, shell=True)
