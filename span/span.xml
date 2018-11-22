@@ -1,7 +1,7 @@
-<tool id="span" name="SPAN" version="0.7.1.4518a">
+<tool id="span" name="SPAN" version="0.8.0.4533">
     <description>Semi-supervised Peak Analyzer for ChIP-Seq data</description>
     <requirements>
-        <requirement type="package" version="0.7.1.4518">package_span_jar</requirement>
+        <requirement type="package" version="0.8.0.4533">package_span_jar</requirement>
     </requirements>
     <stdio>
         <!-- Wrapper ensures anything other than zero is an error -->
