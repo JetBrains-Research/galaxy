@@ -76,7 +76,9 @@ There are 2 options to update repository files:
     2. Copy application folder to dedicated mercurial repository
     3. Commit and push to mercurial
 
-
+Error reporting
+---------------
+Report any errors or comments regarding SPAN in the public issue [tracker](https://github.com/JetBrains-Research/span/issues).
 
 Resources
 ---------
