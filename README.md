@@ -1,3 +1,5 @@
+[![JetBrains Research](https://jb.gg/badges/research.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
 Galaxy Wrappers
 ===============
 This repository contains wrappers for Galaxy for the following applications:
